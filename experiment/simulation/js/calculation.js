@@ -1,4 +1,7 @@
-function calculate() {
+function checkYourResult() {
+    let flag = true;
+    const tables1 = document.querySelectorAll("table");
+
     const tables = ["tab1", "tab2", "tab3", "tab4"];
     let isValid = true;
 
@@ -13,37 +16,37 @@ function calculate() {
     });
 
     if (isValid) {
-        document.getElementById("check-button").disabled = false;
+        tables1.forEach(table => {
+            const inputs = table.querySelectorAll("input");
+            inputs.forEach(input => {
+                const value = parseFloat(input.value);
+                const expectedValue = parseFloat(input.dataset.expected);
+    
+                if (value !== expectedValue) {
+                    input.style.color = "red";
+                    flag = false;
+                }else{
+                    input.style.color = "black";
+                }
+            });
+        });
+    
+        if (flag) {
+            for (let i = 0; i < 5; i++) {
+                confetti();
+            }
+            document.querySelector(".result-table2").style.display = "none";
+            document.querySelector(".result-table1").style.display = "none";
+            alert("Congratulations! You have successfully completed the experiment.");
+        } else {
+            document.querySelector(".result-table1").style.display = "flex";
+            document.querySelector(".result-table2").style.display = "flex";
+        }
     } else {
         alert("Please fill in all input fields or enter valid values.");
     }
-}
 
-function checkYourResult() {
-    let flag = true;
-    const tables = document.querySelectorAll(".table-container");
-
-    tables.forEach(table => {
-        const inputs = table.querySelectorAll("input");
-        inputs.forEach(input => {
-            const value = parseFloat(input.value);
-            const expectedValue = parseFloat(input.dataset.expected);
-
-            if (value !== expectedValue) {
-                input.style.color = "red";
-                flag = false;
-            }
-        });
-    });
-
-    if (flag) {
-        for (let i = 0; i < 5; i++) {
-            confetti();
-        }
-        alert("Congratulations! You have successfully completed the experiment.");
-    } else {
-        document.querySelector(".result-table").style.display = "flex";
-    }
+    
 }
 
 
